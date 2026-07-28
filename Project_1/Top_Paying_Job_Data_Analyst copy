@@ -1,0 +1,19 @@
+SELECT 
+    job_postings_fact.company_id AS ID,
+    job_postings_fact.job_title_short AS job_title,
+    job_postings_fact.job_title AS role,
+    company_dim.name AS company_name,
+    job_postings_fact.job_posted_date :: DATE AS posted_date,
+    job_postings_fact.salary_year_avg AS yearly_salary
+FROM
+    job_postings_fact
+LEFT JOIN
+    company_dim ON company_dim.company_id = job_postings_fact.company_id
+WHERE
+    job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_postings_fact.salary_year_avg IS NOT NULL
+ORDER BY
+    job_postings_fact.salary_year_avg DESC
+LIMIT
+    5;
+

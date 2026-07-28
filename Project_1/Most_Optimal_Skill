@@ -1,0 +1,62 @@
+    WITH skills_demand AS(
+    SELECT
+    skills_dim.skill_id AS skill_id,
+    skills_dim.skills AS skills,
+    COUNT(skills_job_dim.skill_id) AS skill_demand
+    FROM skills_job_dim
+    INNER JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id
+    INNER JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+    WHERE job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_postings_fact.salary_year_avg IS NOT NULL
+    AND job_work_from_home IS TRUE
+    GROUP BY skills_dim.skill_id
+    ), 
+
+    skill_salary AS(
+    SELECT 
+    skills_dim.skill_id,
+    ROUND(AVG(job_postings_fact.salary_year_avg) ,0) AS Yearly_salary_AVG
+    FROM
+    skills_job_dim
+    INNER JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id
+    INNER JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+    WHERE
+    salary_year_avg IS NOT NULL
+    AND job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_work_from_home IS TRUE
+    GROUP BY skills_dim.skill_id
+    )
+
+    SELECT 
+    skills_demand.skill_id,
+    skills_demand.skills,
+    skills_demand.skill_demand,
+    skill_salary.Yearly_salary_AVG
+    FROM skills_demand
+    INNER JOIN skill_salary ON skill_salary.skill_id = skills_demand.skill_id
+    WHERE skill_demand > '10'
+    ORDER BY 
+    Yearly_salary_AVG DESC,
+    skill_demand DESC
+    LIMIT 10;
+
+    --Shorter Version
+    SELECT 
+    skills_dim.skill_id AS skill_id,
+    skills_dim.skills AS skills,
+    COUNT(skills_dim.skill_id) AS skill_count,
+    ROUND(AVG(job_postings_fact.salary_year_avg) ,0) AS average_yearly_salary
+    FROM skills_dim
+    INNER JOIN skills_job_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+    INNER JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+    WHERE
+    job_postings_fact.salary_year_avg IS NOT NULL
+    AND job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_postings_fact.job_work_from_home IS TRUE
+    GROUP BY skills_dim.skill_id
+    HAVING
+    COUNT(skills_dim.skill_id)> '10'
+    ORDER BY average_yearly_salary DESC, skill_count DESC
+    LIMIT 10;
+
+

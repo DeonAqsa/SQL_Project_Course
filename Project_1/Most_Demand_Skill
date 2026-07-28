@@ -1,0 +1,39 @@
+-- Longer (Complex with CTE)
+WITH most_demand_skill AS(
+SELECT 
+skills_job_dim.skill_id AS skill_id,
+COUNT(*) AS skill_count
+FROM
+skills_job_dim
+LEFT JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+WHERE
+job_postings_fact.job_title_short = 'Data Analyst'
+GROUP BY
+skills_job_dim.skill_id
+ORDER BY 
+skill_count DESC
+)
+
+SELECT
+skills_dim.skill_id,
+skills_dim.skills,
+most_demand_skill.skill_count
+FROM
+skills_dim
+LEFT JOIN most_demand_skill ON most_demand_skill.skill_id = skills_dim.skill_id
+WHERE most_demand_skill.skill_count IS NOT NULL
+ORDER BY skill_count DESC
+LIMIT 5;
+
+
+-- Shorted (Without Skill ID)
+SELECT
+skills_dim.skills,
+COUNT(skills_job_dim.skill_id) AS skill_counted
+FROM skills_job_dim
+INNER JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id
+INNER JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+WHERE job_postings_fact.job_title_short = 'Data Analyst'
+GROUP BY skills_dim.skills
+ORDER BY skill_counted DESC
+LIMIT 5 ;
