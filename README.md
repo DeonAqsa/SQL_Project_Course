@@ -41,7 +41,7 @@ ORDER BY
     job_postings_fact.salary_year_avg DESC
 LIMIT 5;
 ```
-![Highest Paying Roles](/assets_project_1/Picture7.png)
+![Highest Paying Roles](/Assets_Project_1/Picture7.png)
 *Bar graph visualizing the salary for the top 5 salaries for data analysts; this graph was generated using Excel from my SQL query results*
 
 **Insight:** The highest-paying Data Analyst posting reaches $650,000/year, though salaries drop sharply after the top result, settling around $375K–$400K for the rest of the top 5.
@@ -111,7 +111,7 @@ GROUP BY skills_dim.skills
 ORDER BY skill_counted DESC
 LIMIT 5;
 ```
-![Most In-Demand Skills](/assets_project_1/Picture8.png)
+![Most In-Demand Skills](/Assets_Project_1/Picture8.png)
 *Bar graph visualizing the job posting count for the top 5 most in-demand skills for data analysts; this graph was generated using Excel from my SQL query results*
 
 **Insight:** SQL leads with 92,628 job posting mentions, well ahead of Excel and Python in second and third place. This makes sense since most companies store their data in relational databases, so querying with SQL is a baseline requirement before any other analysis tool comes into play.
@@ -135,7 +135,7 @@ GROUP BY skills_dim.skill_id
 ORDER BY Yearly_salary_AVG DESC
 LIMIT 5;
 ```
-![Most In-Demand Skills](/assets_project_1/Picture5.png)
+![Most In-Demand Skills](/Assets_Project_1/Picture5.png)
 *Bar graph visualizing the average yearly salary for the top 5 highest paid skills for data analysts; this graph was generated using Excel from my SQL query results*
 
 **Insight:** SVN tops the list with an average yearly salary of $400K, more than double the next highest skill, Solidity ($179K). These top paid skills tend to be niche and less commonly requested, which likely drives up their value since fewer analysts have them compared to mainstream tools like SQL or Excel.
@@ -162,7 +162,7 @@ HAVING COUNT(skills_dim.skill_id) > 10
 ORDER BY skill_count DESC, average_yearly_salary DESC
 LIMIT 5;
 ```
-![Most Optimal Skill](/assets_project_1/Picture6.png)
+![Most Optimal Skill](/Assets_Project_1/Picture6.png)
 *Combo chart visualizing job posting count (bars) and average yearly salary (dots) for the top 5 most optimal data analyst skills; this graph was generated using Excel from my SQL query results*
 
 **Insight:** Python offers the highest average salary among the top optimal skills at $101,512, even though SQL has the highest overall demand with 3,083 job postings. This makes SQL the safer choice for maximizing opportunities, while Python edges out as the better choice if the priority is salary.
