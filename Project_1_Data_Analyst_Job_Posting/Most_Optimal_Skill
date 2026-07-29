@@ -52,11 +52,10 @@
     WHERE
     job_postings_fact.salary_year_avg IS NOT NULL
     AND job_postings_fact.job_title_short = 'Data Analyst'
-    AND job_postings_fact.job_work_from_home IS TRUE
     GROUP BY skills_dim.skill_id
     HAVING
     COUNT(skills_dim.skill_id)> '10'
-    ORDER BY average_yearly_salary DESC, skill_count DESC
-    LIMIT 10;
+    ORDER BY skill_count DESC, average_yearly_salary DESC 
+    LIMIT 5;
 
 

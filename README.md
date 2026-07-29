@@ -1,10 +1,18 @@
 # Project 1: Data Analyst Job Postings Analysis
 
 ## Introduction
-This project explores the data analyst job market using SQL, aiming to uncover the top-paying jobs, the most in-demand skills, and the skills that offer the best balance of high demand and high salary — the "optimal" skills for anyone looking to become a Data Analyst. Check them out here: [Project_1_Data_Analyst_Job_Posting folder] (/Project_1_Data_Analyst_Job_Posting/)
+This project explores the data analyst job market using SQL, aiming to uncover the top-paying jobs, the most in-demand skills, and the skills that offer the best balance of high demand and high salary — the "optimal" skills for anyone looking to become a Data Analyst. Check them out here: [Project_1_Data_Analyst_Job_Posting 
+folder](/Project_1_Data_Analyst_Job_Posting/).
 
 ## Background
 The dataset used in this project comes from Luke Barousse's SQL course, containing real-world job posting data across multiple roles, including Data Analyst positions.
+
+## The questions i wanted to answer trough my SQL queries were:
+1. What are the top paying Data Analyst jobs?
+2. What skills are required for these top paying jobs?
+3. What are the most in-demand skills for Data Analysts?
+4. Which skills are associated with the highest salaries?
+5. What are the most optimal skills to learn?
 
 ## Tools I Used
 - **SQL** – for querying and analyzing the database
@@ -15,8 +23,7 @@ The dataset used in this project comes from Luke Barousse's SQL course, containi
 ## The Analysis
 
 ### 1. Top Paying Data Analyst Jobs
-Identifies the highest-paying Data Analyst roles by average yearly salary.
-
+Identifies [the highest-paying Data Analyst roles](/Project_1_Data_Analyst_Job_Posting/Top_Paying_Job_Data_Analyst) by average yearly salary.
 ```sql
 SELECT
     job_postings_fact.job_title AS role,
@@ -34,21 +41,15 @@ ORDER BY
     job_postings_fact.salary_year_avg DESC
 LIMIT 5;
 ```
-
-| Role | Company | Posted Date | Yearly Salary |
-|---|---|---|---|
-| Data Analyst | Mantys | 2023-02-20 | $650,000 |
-| Data base administrator | ЛАНИТ | 2023-10-03 | $400,000 |
-| Director of Safety Data Analysis | Torc Robotics | 2023-04-21 | $375,000 |
-| Sr Data Analyst | Illuminate Mission Solutions | 2023-04-05 | $375,000 |
-| Head of Infrastructure Management & Data Analytics - Financial... | Citigroup, Inc | 2023-07-03 | $375,000 |
+![Highest Paying Roles](/assets_project_1/Picture7.png)
+*Bar graph visualizing the salary for the top 5 salaries for data analysts; this graph was generated using Excel from my SQL query results*
 
 **Insight:** The highest-paying Data Analyst posting reaches $650,000/year, though salaries drop sharply after the top result, settling around $375K–$400K for the rest of the top 5.
 
 ---
 
 ### 2. Skills Required for the Top Paying Job
-Breaks down which skills are tied to the single highest-paying Data Analyst posting.
+Breaks down which [skills are tied to the single highest-paying](/Project_1_Data_Analyst_Job_Posting/Skill_Required_Top_PaidProject_1_Data_Analyst_Job_Posting/Top_Skilled_By_Salary) Data Analyst posting.
 
 ```sql
 WITH TOP_SKILL AS(
@@ -91,12 +92,12 @@ LIMIT 5;
 | ЛАНИТ | 2023-10-03 | $400,000 | Git |
 | ЛАНИТ | 2023-10-03 | $400,000 | SVN |
 
-**Insight:** This top-paying posting (which requires a listed skill) leans toward backend/infrastructure tools — Oracle, Kafka, Linux, Git, and SVN — rather than typical analyst tools like Excel or Tableau.
+**Insight:**  The top-paying posting requires backend and infrastructure skills like Oracle, Kafka, Linux, Git, and SVN, not typical analyst tools like Excel or Tableau. This suggests companies pay a premium for Data Analyst roles that overlap with data engineering or system administration, since those skills are harder to find and tend to command higher salaries.
 
 ---
 
 ### 3. Most In-Demand Skills
-Finds the skills that appear most frequently across Data Analyst job postings.
+Finds the [skills that appear most frequently](/Project_1_Data_Analyst_Job_Posting/Most_Demand_Skill) across Data Analyst job postings.
 
 ```sql
 SELECT
@@ -110,21 +111,15 @@ GROUP BY skills_dim.skills
 ORDER BY skill_counted DESC
 LIMIT 5;
 ```
+![Most In-Demand Skills](/assets_project_1/Picture8.png)
+*Bar graph visualizing the job posting count for the top 5 most in-demand skills for data analysts; this graph was generated using Excel from my SQL query results*
 
-| Skill | Demand Count |
-|---|---|
-| SQL | 92,628 |
-| Excel | 67,031 |
-| Python | 57,326 |
-| Tableau | 46,554 |
-| Power BI | 39,468 |
-
-**Insight:** SQL is by far the most requested skill for Data Analyst roles, followed by Excel and Python — confirming these as foundational, must-have skills.
+**Insight:** SQL leads with 92,628 job posting mentions, well ahead of Excel and Python in second and third place. This makes sense since most companies store their data in relational databases, so querying with SQL is a baseline requirement before any other analysis tool comes into play.
 
 ---
 
 ### 4. Top Paid Skills
-Ranks individual skills by their associated average yearly salary.
+[Ranks individual skills](/Project_1_Data_Analyst_Job_Posting/Top_Skilled_By_Salary) by their associated average yearly salary.
 
 ```sql
 SELECT
@@ -140,21 +135,15 @@ GROUP BY skills_dim.skill_id
 ORDER BY Yearly_salary_AVG DESC
 LIMIT 5;
 ```
+![Most In-Demand Skills](/assets_project_1/Picture5.png)
+*Bar graph visualizing the average yearly salary for the top 5 highest paid skills for data analysts; this graph was generated using Excel from my SQL query results*
 
-| Skill | Yearly Salary AVG |
-|---|---|
-| SVN | $400,000 |
-| Solidity | $179,000 |
-| Couchbase | $160,515 |
-| Datarobot | $155,486 |
-| Golang | $155,000 |
-
-**Insight:** The highest-paid skills are niche and specialized (SVN, Solidity, Couchbase) rather than mainstream analyst tools — but they also appear far less frequently in job postings, meaning fewer opportunities overall.
+**Insight:** SVN tops the list with an average yearly salary of $400K, more than double the next highest skill, Solidity ($179K). These top paid skills tend to be niche and less commonly requested, which likely drives up their value since fewer analysts have them compared to mainstream tools like SQL or Excel.
 
 ---
 
 ### 5. Most Optimal Skills (High Demand + High Salary)
-Combines demand and salary to find skills that are both frequently requested **and** well-paid, filtering out rarely-requested skills (appearing more than 10 times).
+Combines demand and salary to find [skills that are both frequently requested **and** well-paid](/Project_1_Data_Analyst_Job_Posting/Most_Optimal_Skill), filtering out rarely-requested skills (appearing more than 10 times).
 
 ```sql
 SELECT
@@ -173,16 +162,10 @@ HAVING COUNT(skills_dim.skill_id) > 10
 ORDER BY skill_count DESC, average_yearly_salary DESC
 LIMIT 5;
 ```
+![Most Optimal Skill](/assets_project_1/Picture6.png)
+*Combo chart visualizing job posting count (bars) and average yearly salary (dots) for the top 5 most optimal data analyst skills; this graph was generated using Excel from my SQL query results*
 
-| Skill | Skill Count | Avg Yearly Salary |
-|---|---|---|
-| SQL | 3,083 | $96,435 |
-| Excel | 2,143 | $86,419 |
-| Python | 1,840 | $101,512 |
-| Tableau | 1,659 | $97,978 |
-| R | 1,073 | $98,708 |
-
-**Insight:** Among skills with solid demand (10+ postings), Python offers the best average salary, while SQL remains the most in-demand overall — making SQL + Python a strong combination to prioritize.
+**Insight:** Python offers the highest average salary among the top optimal skills at $101,512, even though SQL has the highest overall demand with 3,083 job postings. This makes SQL the safer choice for maximizing opportunities, while Python edges out as the better choice if the priority is salary.
 
 ## What I Learned
 Through this project, I strengthened my SQL skills, including:
@@ -193,4 +176,18 @@ Through this project, I strengthened my SQL skills, including:
 - Sorting and limiting results with **ORDER BY** and **LIMIT** to extract top-N insights
 
 ## Conclusions
-The analysis shows that **SQL, Excel, and Python** are the most in-demand skills for Data Analyst roles, while niche skills like **SVN, Solidity, and Couchbase** command the highest average salaries but appear far less frequently. Balancing both demand and salary, **SQL and Python stand out as the most optimal skills to prioritize** — they're widely requested by employers and consistently tied to strong compensation. For anyone aiming to break into or grow in the Data Analyst field, focusing on these two skills first, then branching into complementary tools like Tableau or R, offers the most practical and rewarding learning path.
+### Key Findings
+
+1. **Top Paying Data Analyst Jobs** — The highest-paying Data Analyst posting reaches $650,000/year, though salaries drop sharply after the top result, settling around $375K–$400K for the rest of the top 5.
+
+2. **Skills Required for Top Paying Jobs** — The top-paying posting requires backend and infrastructure skills like Oracle, Kafka, Linux, Git, and SVN, not typical analyst tools like Excel or Tableau. This suggests companies pay a premium for Data Analyst roles that overlap with data engineering or system administration, since those skills are harder to find and tend to command higher salaries.
+
+3. **Most In-Demand Skills** — SQL leads with 92,628 job posting mentions, well ahead of Excel and Python in second and third place. This makes sense since most companies store their data in relational databases, so querying with SQL is a baseline requirement before any other analysis tool comes into play.
+
+4. **Top Paid Skills** — SVN tops the list with an average yearly salary of $400K, more than double the next highest skill, Solidity ($179K). These top paid skills tend to be niche and less commonly requested, which likely drives up their value since fewer analysts have them compared to mainstream tools like SQL or Excel.
+
+5. **Most Optimal Skills** — Python offers the highest average salary among the top optimal skills at $101,512, even though SQL has the highest overall demand with 3,083 job postings. This makes SQL the safer choice for maximizing opportunities, while Python edges out as the better choice if the priority is salary.
+
+### Closing Thoughts
+
+This project strengthened my SQL skills and gave me a clearer picture of the Data Analyst job market. The findings serve as a guide for prioritizing which skills to learn, showing that SQL remains the most in-demand foundation, while skills like Python and niche tools such as SVN offer stronger salary potential. Balancing high-demand and high-paying skills like this can help aspiring Data Analysts position themselves better in a competitive job market. This project also reinforced how valuable SQL is not just for querying data, but for turning raw numbers into insights that actually guide real decisions.

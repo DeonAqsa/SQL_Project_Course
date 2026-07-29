@@ -1,0 +1,58 @@
+WITH TOP_SKILL AS(
+    SELECT 
+    skills_job_dim.job_id,
+    job_postings_fact.job_title_short,
+    skills_dim.skills AS skill_required
+FROM skills_job_dim
+INNER JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id
+)
+SELECT 
+    job_postings_fact.company_id AS ID,
+    job_postings_fact.job_title_short AS job_title,
+    job_postings_fact.job_title AS role,
+    company_dim.name AS company_name,
+    job_postings_fact.job_posted_date :: DATE AS posted_date,
+    job_postings_fact.salary_year_avg AS yearly_salary,
+    TOP_SKILL.skill_required AS skill_required
+FROM
+    job_postings_fact
+LEFT JOIN
+    company_dim ON company_dim.company_id = job_postings_fact.company_id
+LEFT JOIN 
+    TOP_SKILL ON TOP_SKILL.job_id = job_postings_fact.job_id
+WHERE
+    job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_postings_fact.salary_year_avg IS NOT NULL
+    AND TOP_SKILL.skill_required IS NOT NULL
+ORDER BY
+    job_postings_fact.salary_year_avg DESC
+LIMIT 5;
+    
+
+WITH top_paying AS(
+SELECT 
+    job_postings_fact.job_id AS ID,
+    job_postings_fact.job_title_short AS job_title,
+    job_postings_fact.job_title AS role,
+    company_dim.name AS company_name,
+    job_postings_fact.job_posted_date :: DATE AS posted_date,
+    job_postings_fact.salary_year_avg AS yearly_salary
+FROM
+    job_postings_fact
+LEFT JOIN
+    company_dim ON company_dim.company_id = job_postings_fact.company_id
+WHERE
+    job_postings_fact.job_title_short = 'Data Analyst'
+    AND job_postings_fact.salary_year_avg IS NOT NULL
+ORDER BY
+    job_postings_fact.salary_year_avg DESC
+LIMIT
+    5
+)
+SELECT top_paying.*,
+skills_dim.skills
+FROM top_paying
+LEFT JOIN skills_job_dim ON skills_job_dim.job_id = top_paying.ID
+LEFT JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id
+WHERE skills_dim.skills IS NOT NULL

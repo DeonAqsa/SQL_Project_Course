@@ -338,7 +338,7 @@ FROM (
 ) AS union_tables
 INNER JOIN company_dim ON company_dim.company_id = union_tables.company_id
 WHERE
-union_tables.salary_year_avg > '70000'
-AND union_tables.job_title_short LIKE '%Data_Analyst%'
+union_tables.salary_year_avg > '100000'
+AND union_tables.job_title_short LIKE '%Analyst%'
 ORDER BY
 union_tables.salary_year_avg DESC;
