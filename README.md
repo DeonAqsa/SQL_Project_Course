@@ -1,7 +1,7 @@
 # Project 1: Data Analyst Job Postings Analysis
 
 ## Introduction
-This project explores the data analyst job market using SQL, aiming to uncover the top-paying jobs, the most in-demand skills, and the skills that offer the best balance of high demand and high salary — the "optimal" skills for anyone looking to become a Data Analyst.
+This project explores the data analyst job market using SQL, aiming to uncover the top-paying jobs, the most in-demand skills, and the skills that offer the best balance of high demand and high salary — the "optimal" skills for anyone looking to become a Data Analyst. Check them out here: [Project_1_Data_Analyst_Job_Posting folder] (/Project_1_Data_Analyst_Job_Posting/)
 
 ## Background
 The dataset used in this project comes from Luke Barousse's SQL course, containing real-world job posting data across multiple roles, including Data Analyst positions.
